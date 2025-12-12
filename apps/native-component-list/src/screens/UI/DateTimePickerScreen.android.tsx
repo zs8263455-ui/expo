@@ -29,42 +29,40 @@ export default function DatePickerScreen() {
           <Text>{selectedDate.toTimeString()}</Text>
         </Section>
         <Section title={getPickerType()}>
-          <View style={{ gap: 20 }}>
-            <Host>
-              <Column>
-                <DateTimePicker
-                  onDateSelected={(date) => {
-                    setSelectedDate(date);
-                  }}
-                  displayedComponents={
-                    typeOptions[typeIndex] as DateTimePickerProps['displayedComponents']
-                  }
-                  initialDate={selectedDate.toISOString()}
-                  variant={displayOptions[selectedIndex] as DateTimePickerProps['variant']}
-                  showVariantToggle
-                  is24Hour
-                />
+          <Host matchContents={{ vertical: true }}>
+            <Column>
+              <Picker
+                options={displayOptions}
+                selectedIndex={selectedIndex}
+                onOptionSelected={({ nativeEvent: { index } }) => {
+                  setSelectedIndex(index);
+                }}
+                variant="segmented"
+              />
 
-                <Picker
-                  options={displayOptions}
-                  selectedIndex={selectedIndex}
-                  onOptionSelected={({ nativeEvent: { index } }) => {
-                    setSelectedIndex(index);
-                  }}
-                  variant="segmented"
-                />
+              <Picker
+                options={typeOptions}
+                selectedIndex={typeIndex}
+                onOptionSelected={({ nativeEvent: { index } }) => {
+                  setTypeIndex(index);
+                }}
+                variant="segmented"
+              />
 
-                <Picker
-                  options={typeOptions}
-                  selectedIndex={typeIndex}
-                  onOptionSelected={({ nativeEvent: { index } }) => {
-                    setTypeIndex(index);
-                  }}
-                  variant="segmented"
-                />
-              </Column>
-            </Host>
-          </View>
+              <DateTimePicker
+                onDateSelected={(date) => {
+                  setSelectedDate(date);
+                }}
+                displayedComponents={
+                  typeOptions[typeIndex] as DateTimePickerProps['displayedComponents']
+                }
+                initialDate={selectedDate.toISOString()}
+                variant={displayOptions[selectedIndex] as DateTimePickerProps['variant']}
+                showVariantToggle
+                is24Hour
+              />
+            </Column>
+          </Host>
         </Section>
       </Page>
     </ScrollView>
